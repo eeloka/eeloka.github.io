@@ -1,0 +1,40 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000000;
+}
+
+canvas {
+  position: absolute;
+  top: 0px;
+  z-index:-1000;
+}
+
+#rnd {
+	position: absolute;
+	top: 16px;
+	left: 16px;
+}
+
+#logo1 {
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+}
+
+#logo2 {
+	position: absolute;
+	bottom: 16px;
+	left: 16px;
+}
+
+#info {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	width: 200px;
+	height: 48px;
+	font-size: 12px;
+	font-family: Arial;
+	color: rgba(255,255,255,0.8);
+}

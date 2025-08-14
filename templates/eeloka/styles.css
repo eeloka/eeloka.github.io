@@ -1,0 +1,70 @@
+/* */
+
+a{text-decoration: underline;}
+
+pre{background-color: transparent;
+    border: 0px solid #CCCCCC;
+    border-radius: 0px 0px 0px 0px;}
+
+
+/******************************************************/
+#project-list ul        { list-style: none; }
+#project-list *		 { margin: 0; padding: 0; }
+
+#project-list {
+  /*background:transparent url(graypixel.gif) repeat-y scroll 5px 0;*/
+  }
+#project-list ul li ul{
+  background:transparent url(graypixel.gif) repeat-y scroll 5px 0;
+  }
+#project-list li {
+  font-size:1.1em;
+  margin:0 0 0 0;
+  padding:0 0 0 0;
+  }
+
+#project-list li a, 
+#project-list li b  {
+  /*background:white none repeat scroll 0 0;*/
+  display:inline-block;
+  padding:3px;
+  }
+#project-list li a:hover
+{
+	background: #eeeeee;
+	border-radius: 5px 5px 5px 5px;
+	}
+#project-list li.active > a
+{
+	background: #428BCA;
+	color: white;
+	border-radius: 5px 5px 5px 5px;
+	}
+
+#project-list li ul li {
+  font-size:0.9em;
+  margin:6px 0 4px 5px;
+  padding:0 0 0 14px;
+  }
+#project-list li ul li a {
+  padding:0 3px 2px 3px;
+  }
+#project-list li ul li a:before {
+  content: "";
+	padding:0 0 0 16px;
+	margin:0 0 0 -16px;
+	background:transparent url(file.gif) no-repeat 0 0.4em;
+  }
+#project-list li ul li ul {
+  background:transparent url(graypixel.gif) repeat-y scroll 8px 0;
+  margin-bottom:10px;
+  }
+#project-list li ul li ul li {
+  margin-left:9px;
+  padding-left:13px;
+  }
+/**/
+#project-list li ul li.folder > a:before{
+	background:transparent url(folder.gif) no-repeat 0 0.4em;
+}
+

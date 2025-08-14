@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    
+<script>
+
+</script>
+    </head>
+        <body>
+
+<canvas id="myCanvas" width="500" height="281">   
+<video id="myVideo" width="500" height="281" controls>
+<source src="trailer.webm"></source>
+</video>   
+</canvas>
+
+<div>
+<button id="play">Play</button>
+<button id="stop">Stop</button> 
+</div>         
+
+<canvas id="canvas"></canvas>
+
+<div id="rezult"></div>
+<div id="rezult2"></div>
+<script>
+var video = $("#myVideo");
+$("#play").click(function() 
+{video.get(0).play();});
+
+$("#stop").click(function() 
+{ video.get(0).pause(); });
+
+var canvas = $("#myCanvas");
+var context = canvas.get(0).getContext("2d");
+
+video.bind("play", function() {
+drawCanvas(); });
+
+function drawCanvas() {
+  if (video.get(0).paused || video.get(0).ended) return false;
+  
+
+  
+  context.drawImage(video.get(0), 0, 0, 500, 281);
+  var imageData = context.getImageData(0, 0, canvas.width(), canvas.height()); 
+  var pixels = imageData.data;
+  context.clearRect(0, 0, canvas.width(), canvas.height());
+  
+
+  var numTileRows = 36; 
+  var numTileCols = 64;
+
+
+  
+  var averageTileWidth = imageData.width/numTileCols; 
+  var averageTileHeight = imageData.height/numTileRows;
+  
+  var tiles=[];
+  var heights=[];
+  var ys=[];
+  var widths=[];
+  var xs=[];
+  
+  var t=0;
+  
+  var ax=(canvas.width()*2/2)/(numTileCols/2*numTileCols/2);
+  
+  for (var c = 0; c <= numTileCols/2; c++) {
+    xs[c]=canvas.width()/2+ax*c*c/2;
+    widths[c]=(canvas.width()/2+ax*(c+1)*(c+1)/2)-xs[c];
+  };
+  //$('#rezult2').html( xs+"<br>");
+  for (var c = numTileCols/2; c < numTileCols; c++) {
+    xs[c]=canvas.width()-xs[numTileCols-c];
+    widths[c]=widths[numTileCols-c];
+  };
+
+  var ay=(canvas.height()*2/2)/(numTileRows/2*numTileRows/2);
+  
+  for (var r = 0; r <= numTileRows/2; r++) {
+    ys[r]=canvas.height()/2+ay*r*r/2;
+    heights[r]=(canvas.height()/2+ay*(r+1)*(r+1)/2)-ys[r];
+  };
+  for (var r = numTileRows/2; r < numTileRows; r++) {
+    ys[r]=canvas.height()-ys[numTileRows-r];
+    heights[r]=heights[numTileRows-r];
+  };
+  
+  /*
+  var ay=(canvas.height()*2)/(numTileRows*numTileRows);
+
+  for (var r = 0; r < numTileRows; r++) {
+    ys[r]=ay*r*r/2;
+    heights[r]=(ay*(r+1)*(r+1)/2)-ys[r];
+  };*/
+  
+  for (var r = 0; r < numTileRows; r++) {
+    for (var c = 0; c < numTileCols; c++) {    
+       tiles[t]={
+       "x":  xs[c],
+       "y":  ys[r],
+       "width":  widths[c],
+       "height":  heights[r]
+       }
+       t++;
+      // $('#rezult2').html($('#rezult2').html()+averageTileHeight*r+' ');
+    }; 
+  };
+
+
+
+  for (var t = 0; t < numTileRows*numTileCols; t++) {
+    var x = (tiles[t]['x'])+(tiles[t]['width']/2); 
+    var y = (tiles[t]['y'])+(tiles[t]['height']/2); 
+
+    var pos = (Math.floor(y)*(imageData.width*4))+(Math.floor(x)*4);
+    var red = pixels[pos]; 
+    var green = pixels[pos+1]; 
+    var blue = pixels[pos+2];
+    context.fillStyle = "rgb("+red+", "+green+", "+blue+")";
+    context.fillRect(x-(tiles[t]['width']/2), y-(tiles[t]['height']/2), tiles[t]['width'], tiles[t]['height']);
+  };
+  
+setTimeout(drawCanvas, 30);
+  
+};
+
+
+function drawCanvas__() {
+  if (video.get(0).paused || video.get(0).ended) return false;
+  
+
+  
+  context.drawImage(video.get(0), 0, 0, 500, 281);
+  var imageData = context.getImageData(0, 0, canvas.width(), canvas.height()); 
+  var pixels = imageData.data;
+  context.clearRect(0, 0, canvas.width(), canvas.height());
+  
+  
+  var numTileRows = 36; 
+  var numTileCols = 64;
+  
+  var averageTileWidth = imageData.width/numTileCols; 
+  var averageTileHeight = imageData.height/numTileRows;
+  
+  var tiles=[];
+  
+  var t=0;
+  
+  var ax=(canvas.width()*2)/(numTileCols*numTileCols);
+  var ay=(canvas.height()*2)/(numTileRows*numTileRows);
+  
+  //$('#rezult2').html('! '+ax+' '+ay+'<br>');
+  
+  for (var r = 0; r < numTileRows; r++) {
+    for (var c = 0; c < numTileCols; c++) {    
+       tiles[t]={
+       "x":  ax*c*c/2,
+       "y":  ay*r*r/2,
+       "width":  (ax*(c+1)*(c+1)/2)-(ax*c*c/2),
+       "height": (ay*(r+1)*(r+1)/2)-(ay*r*r/2)
+       }
+       t++;
+      // $('#rezult2').html($('#rezult2').html()+averageTileHeight*r+' ');
+    }; 
+  };
+  /*
+    $('#rezult').html('! '+averageTileWidth+' '+averageTileHeight+'<br>'
+    +tiles[0]['x']+' '+tiles[0]['y']+' '+tiles[0]['width']+' '+tiles[0]['height']+'<br>'
+    +tiles[1]['x']+' '+tiles[1]['y']+' '+tiles[1]['width']+' '+tiles[1]['height']+'<br>'
+    +tiles[2]['x']+' '+tiles[2]['y']+' '+tiles[2]['width']+' '+tiles[2]['height']+'<br>'
+    +tiles[3]['x']+' '+tiles[3]['y']+' '+tiles[3]['width']+' '+tiles[3]['height']+'<br>'
+    );
+    
+    var check=0;
+    for (var c = 0; c < numTileCols; c++) {
+      check+=tiles[c]['width'];
+    }
+    $('#rezult2').html('! '+check+' '+tiles[63]['x']+'<br>');
+  */
+
+
+  for (var t = 0; t < numTileRows*numTileCols; t++) {
+    var x = (tiles[t]['x'])+(tiles[t]['width']/2); 
+    var y = (tiles[t]['y'])+(tiles[t]['height']/2); 
+
+    var pos = (Math.floor(y)*(imageData.width*4))+(Math.floor(x)*4);
+    var red = pixels[pos]; 
+    var green = pixels[pos+1]; 
+    var blue = pixels[pos+2];
+    context.fillStyle = "rgb("+red+", "+green+", "+blue+")";
+    context.fillRect(x-(tiles[t]['width']/2), y-(tiles[t]['height']/2), tiles[t]['width'], tiles[t]['height']);
+  };
+  
+setTimeout(drawCanvas, 30);
+  
+};
+
+function drawCanvas_() {
+  if (video.get(0).paused || video.get(0).ended) return false;
+  
+  context.drawImage(video.get(0), 0, 0, 500, 281);
+  var imageData = context.getImageData(0, 0, canvas.width(), canvas.height()); 
+  var pixels = imageData.data;
+  context.clearRect(0, 0, canvas.width(), canvas.height());
+  var numTileRows = 36; 
+  var numTileCols = 64;
+  var tileWidth = imageData.width/numTileCols; 
+  var tileHeight = imageData.height/numTileRows;
+  for (var r = 0; r < numTileRows; r++) {
+  for (var c = 0; c < numTileCols; c++) {
+    var x = (c*tileWidth)+(tileWidth/2); 
+    var y = (r*tileHeight)+(tileHeight/2);
+    var pos = (Math.floor(y)*(imageData.width*4))+(Math.floor(x)*4);
+    var red = pixels[pos]; 
+    var green = pixels[pos+1]; 
+    var blue = pixels[pos+2];
+    context.fillStyle = "rgb("+red+", "+green+", "+blue+")";
+    context.fillRect(x-(tileWidth/2), y-(tileHeight/2), tileWidth, tileHeight);
+  }; 
+  };
+  
+setTimeout(drawCanvas, 30);
+  
+};
+
+
+</script>
+
+</body>
+</html>          <!--0.00585-->

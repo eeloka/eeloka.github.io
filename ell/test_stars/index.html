@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="shortcut icon" href="/favicon.png">-->
+    <title>zillion stars</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../../templates/eeloka/styles.css">
+  </head>
+
+  <body style='padding-top: 20px;'>
+	  
+    <div class="container">
+			<div class="row">
+				<div class="col-sm-9 col-md-9 col-lg-9 col-sm-push-3 col-md-push-3 col-lg-push-3">
+					
+  <link rel="stylesheet" href="styles.css">
+	<script src="jquery-1.8.3.min.js"></script>
+	<script src="pixi.js"></script>
+
+
+	<!--<img src="assets/zillionoid_title.png" id="logo1" title="zillion stars" />
+  <a href="http://eeloka.ru"><img src="assets/eeloka_logo.png" id="logo2" title="eeloka" /></a>-->
+	
+	<input type="button" id="rnd" value="Сделать больше звезд" />
+	<div id="info">Info</div>
+
+	<script>
+  
+
+	$(window).resize(resize)
+	window.onorientationchange = resize;
+
+	document.addEventListener('DOMContentLoaded', start, false);
+
+	//	Globals, globals everywhere and not a drop to drink
+	var w = 1024;
+	var h = 768;
+	var starCount = 0;
+  var waveCount = 100;
+	var sx = 1.0 + (Math.random() / 20);
+	var sy = 1.0 + (Math.random() / 20);
+	var slideX = w / 2;
+	var slideY = h / 2;
+	var stars = [];
+	var renderer;
+	var stage;
+  var last_frame_time = 0;
+  var last_fps_time = 0;
+  var ballTexture;
+
+	function start() {
+  $('#hypercomments_widget').css('opacity', 0.8);//.css("background", "rgba(200, 200, 200, 0.6)");
+  
+    ballTexture = new PIXI.Texture.fromImage("assets/snow1.png");
+ 
+		renderer = PIXI.autoDetectRenderer(w, h);
+		stage = new PIXI.Stage();
+
+		document.body.appendChild(renderer.view);
+
+		newWave();
+
+		document.getElementById('rnd').onclick = newWave;
+		resize();
+		requestAnimFrame(update);
+	}
+
+	function newWave () {
+		sx = 1.0 + (Math.random() / 20);
+		sy = 1.0 + (Math.random() / 20);
+
+    for (var i = 0; i < waveCount; i++)
+		{
+			var tempBall = new PIXI.Sprite(ballTexture);
+
+			tempBall.position.x = (Math.random() * w) - slideX;
+			tempBall.position.y = (Math.random() * h) - slideY;
+			tempBall.anchor.x = 0.5;
+			tempBall.anchor.y = 0.5;
+
+			stars.push({ sprite: tempBall, x: tempBall.position.x, y: tempBall.position.y });
+
+			stage.addChild(tempBall);
+		}
+    starCount+=waveCount;
+	}
+
+	function resize()
+	{
+		w = $(window).width() - 16;
+		h = $(window).height() - 16;
+
+		slideX = w / 2;
+		slideY = h / 2;
+
+		renderer.resize(w, h);
+	}
+
+	function update()
+	{
+		for (var i = 0; i < starCount; i++)
+		{
+			stars[i].sprite.position.x = stars[i].x + slideX;
+			stars[i].sprite.position.y = stars[i].y + slideY;
+			stars[i].x = stars[i].x * sx;
+			stars[i].y = stars[i].y * sy;
+
+			if (stars[i].x > w)
+			{
+				stars[i].x = stars[i].x - w;
+			}
+			else if (stars[i].x < -w)
+			{
+				stars[i].x = stars[i].x + w;
+			}
+
+			if (stars[i].y > h)
+			{
+				stars[i].y = stars[i].y - h;
+			}
+			else if (stars[i].y < -h)
+			{
+				stars[i].y = stars[i].y + h;
+			}
+		}
+
+		renderer.render(stage);
+     var d = new Date();
+     var fps =(1000/(d.getTime()-last_frame_time)).toFixed(2);
+     last_frame_time=d.getTime();
+     if(d.getTime()-last_fps_time>500)
+     {
+       document.getElementById('info').innerHTML = 'fps: ' + fps + '<br />stars: ' + starCount;
+       last_fps_time=d.getTime();
+     }
+
+		requestAnimFrame(update);
+	}
+	</script>
+  <br>
+  <br>
+  <br>					
+										
+				</div>
+				<div class="col-sm-3 col-md-3 col-lg-3 col-sm-pull-9 col-md-pull-9 col-lg-pull-9">
+										<div id="project-list">
+						<ul>
+						<li >
+						<a href="../../index.html">eeloka.ru</a>
+						<ul><li class=' '><a href='../../mine/index.html'>Майнинг</a></li><li class=' folder'><a href='../index.html'>cucumber's stuff</a><ul><li class=' '><a href='../typing_game.php'>Клавиатурный тренажер</a></li><li class=' '><a href='../mapgen/index.html'>Генератор карт</a></li><li class=' '><a href='../space/index.html'>Космическая игра 0.000001b</a></li><li class=' folder'><a href='../polygon/index.html'>Полигон</a></li><li class='active '><a href='index.html'>zillion stars</a></li></ul></li><li class=' folder'><a href='../../eu/index.html'>eu</a></li><li class=' folder'><a href='../../shared/index.html'>Shared</a></li><li class=' '><a href='../../policy.html'>Policy</a></li></ul>						</li></ul>
+					</div>
+					<div>
+						<div style="padding-top:20px;width:100%;background: url('../../templates/eeloka/graypixel.gif') repeat-x 50% 20%;text-align: center;">
+						<a style="font-size:80%" href="index.html#" onclick="window.open('http://validator.w3.org/check?uri='+escape(document.location.href)+'&amp;charset=%28detect+automatically%29&amp;doctype=Inline&amp;group=0');return false">Все ли правщики здесь знают HTML?</a>
+						</div>
+					</div>
+										
+					
+				</div>
+			</div>
+    </div><!-- /.container -->
+		
+
+				<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter18985513 = new Ya.Metrika({id:18985513,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="http://mc.yandex.ru/watch/18985513" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->  </body>
+</html>
+<!--0.00576-->

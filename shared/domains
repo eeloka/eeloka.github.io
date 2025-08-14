@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="shortcut icon" href="/favicon.png">-->
+    <title>Домены</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../templates/eeloka/styles.css">
+  </head>
+
+  <body style='padding-top: 20px;'>
+	  
+    <div class="container">
+			<div class="row">
+				<div class="col-sm-9 col-md-9 col-lg-9 col-sm-push-3 col-md-push-3 col-lg-push-3">
+					Домены &mdash; отголоски безумных идей фонтанирующего разума, сгоревших в реке времени.<br>
+<pre>
+    23.12.2012   openwood.tv 
+    23.12.2012   avantgarde-indie-scene-monitor.ru 
+    26.11.2012   anantaguna.com 
+    19.11.2012   durka1.ru 
+    16.11.2012   anantagames.ru
+    09.08.2012   future-os.org 
+    18.07.2012   проектсветжизни.рф 
+    18.07.2012   lightoflifeproject.ru 
+    13.07.2012   анантагуна.рф 
+</pre>
+<br>
+
+
+<br><br>
+cucumber: Да и чтоб не забыть подарил домен одному челу, судьба его не безразлична (домена)<br>
+<a href="http://saraswati.ru">saraswati.ru</a>
+<br><br>
+Еще прикладываю время регистрации чтоб не забыть подумать о том, чтобы продлить :)<br>
+					
+										
+				</div>
+				<div class="col-sm-3 col-md-3 col-lg-3 col-sm-pull-9 col-md-pull-9 col-lg-pull-9">
+										<div id="project-list">
+						<ul>
+						<li >
+						<a href="../index.html">eeloka.ru</a>
+						<ul><li class=' '><a href='../mine/index.html'>Майнинг</a></li><li class=' folder'><a href='../ell/index.html'>cucumber's stuff</a></li><li class=' folder'><a href='../eu/index.html'>eu</a></li><li class=' folder'><a href='index.html'>Shared</a><ul><li class=' '><a href='anapa_ladushki/index.html'> Детский дом «Ладушки» </a></li><li class=' folder'><a href='svetliachki/index.html'>«Светлячковая Деревня»</a></li><li class=' '><a href='CYBERNETICAAFFAIRS/index.html'>Кибернетические Предприятия</a></li><li class=' '><a href='CoFe/index.html'>«Есть люди, разгрызающие кобальтовый сплав»</a></li><li class=' folder'><a href='notes/index.html'>Заметки, цитаты</a></li><li class=' folder'><a href='pages/index.html'>Листая страницы</a></li><li class=' folder'><a href='avantgarde-indie-scene-monitor/index.html'>Avantgarde Indie Scene Monitor</a></li><li class=' folder'><a href='oberon/index.html'>OBERON<sup>SP</sup></a></li><li class=' folder'><a href='zillionoid/index.html'>Zilionoid</a></li><li class=' folder'><a href='museum/index.html'>Музей</a></li><li class='active '><a href='domains'>Домены</a></li><li class=' '><a href='sl/index.html'>Посиделки в сл-ке</a></li><li class=' '><a href='redproject/index.html'>Роботы и красный проект</a></li><li class=' '><a href='eclectocommunism/index.html'>Эклектокоммунизм</a></li></ul></li><li class=' '><a href='../policy.html'>Policy</a></li></ul>						</li></ul>
+					</div>
+					<div>
+						<div style="padding-top:20px;width:100%;background: url('../templates/eeloka/graypixel.gif') repeat-x 50% 20%;text-align: center;">
+						<a style="font-size:80%" href="domains#" onclick="window.open('http://validator.w3.org/check?uri='+escape(document.location.href)+'&amp;charset=%28detect+automatically%29&amp;doctype=Inline&amp;group=0');return false">Все ли правщики здесь знают HTML?</a>
+						</div>
+					</div>
+										
+					
+				</div>
+			</div>
+    </div><!-- /.container -->
+		
+
+				<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter18985513 = new Ya.Metrika({id:18985513,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="http://mc.yandex.ru/watch/18985513" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->  </body>
+</html>
+<!--0.00495-->

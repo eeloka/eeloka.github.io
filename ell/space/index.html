@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="shortcut icon" href="/favicon.png">-->
+    <title>Космическая игра 0.000001b</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../../templates/eeloka/styles.css">
+  </head>
+
+  <body style='padding-top: 20px;'>
+	  
+    <div class="container">
+			<div class="row">
+				<div class="col-sm-9 col-md-9 col-lg-9 col-sm-push-3 col-md-push-3 col-lg-push-3">
+					<style>
+canvas{
+display: block;
+background: black;
+border: 1px solid #777777;
+border-radius: 15px 15px 15px 15px;
+margin: 0 auto;
+margin-top: 20px;
+}
+body{
+margin:0px;
+background: #333333;
+}
+</style>
+<script type="text/javascript">
+var ctx;
+var c;
+var control = new Object();
+
+control.events = {
+  up : false,
+  down : false,
+  left : false,
+  right : false,
+  space : false
+};
+			
+var ship = new Object();
+ship.img = new Image();
+//ship.img.src = "space/ship_01.png";
+ship.img.src = "ship_01.png";
+ship.rotation_center_x=7;
+ship.rotation_center_y=11;
+ship.rotation_correction=-90;
+ship.rot=0;
+ship.rot_speed=3;
+ship.pos = new Array();
+ship.pos.x=200;
+ship.pos.y=100;
+
+ship.vel = new Array();
+ship.vel.x=0;
+ship.vel.y=0;
+
+ship.acc = new Array();
+ship.acc.x=0;
+ship.acc.y=0;
+
+ship.thrust=0;
+ship.thrust_step=0.001;
+ship.thrust_max=0.020;
+
+ship.fuel=100;
+
+function $(id) {
+	return document.getElementById(id);
+}
+
+control.onKeyDown=function(e){
+    switch(e.keyCode){
+        case 37: control.events.left=true; e.preventDefault(); break;
+        case 38: control.events.up=true;   e.preventDefault(); break;
+        case 39: control.events.right=true;e.preventDefault(); break;
+        case 40: control.events.down=true; e.preventDefault(); break;
+        case 32: control.events.space=true;e.preventDefault(); break; // Space
+        default: break; // do not block other keys
+    }
+}
+control.onKeyUp=function(e){
+    switch(e.keyCode){
+        case 37: control.events.left=false; e.preventDefault(); break;
+        case 38: control.events.up=false;   e.preventDefault(); break;
+        case 39: control.events.right=false;e.preventDefault(); break;
+        case 40: control.events.down=false; e.preventDefault(); break;
+        case 32: control.events.space=false;e.preventDefault(); break;
+        default: break; // do not block other keys
+    }
+}
+
+control.onmousemove=function(e){
+  //mouse.x = e.pageX;
+	//mouse.y = e.pageY;
+}
+
+
+control.init=function() {
+  //инициализация
+	c = document.getElementById('canvas');
+  //c.width = window.innerWidth-200;
+  //c.height = window.innerHeight-100;
+	c.width = 400;
+	c.height = 400;
+  ctx = c.getContext('2d');
+	window.setInterval(clock, 30);
+	
+	ship.pos.x=c.width/2;
+	ship.pos.y=c.height/2 ;
+}
+
+function clear() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    /* чтоб наверняка
+    ctx.fillStyle = 'rgba(0,0,0,1)';
+    ctx.fillRect(0, 0, canva.width, canva.height);
+    */
+}
+ 
+function clock() 
+{
+  if(control.events.left)ship.rot-=ship.rot_speed;
+  if(control.events.right)ship.rot+=ship.rot_speed;
+  //газуем
+  if(control.events.up){
+    if(ship.fuel > 0){
+      ship.thrust=ship.thrust_max;
+      /*
+      if(ship.thrust < ship.thrust_max){
+        ship.thrust+=ship.thrust_step;
+      }	
+      */
+    }else{
+      ship.thrust = 0;
+    }
+	}
+	else ship.thrust = 0;
+	/*
+	//сбрасываем газ
+  if(control.events.down){
+    if(ship.thrust > 0){
+      ship.thrust-=ship.thrust_step;
+    }else{
+      ship.thrust = 0;
+    }
+	}
+	*/
+	
+	//тратим топливо
+	if(ship.thrust > 0 && ship.fuel > 0)ship.fuel -= ship.thrust;
+  
+  ship.acc.x += (Math.cos(((ship.rot+ship.rotation_correction)) *  Math.PI / 180) * ship.thrust);
+	ship.acc.y += (Math.sin(((ship.rot+ship.rotation_correction)) *  Math.PI / 180) * ship.thrust);
+  
+ // ship.vel.x += ship.acc.x;
+ // ship.vel.y += ship.acc.y;
+  
+  ship.pos.x += ship.acc.x;
+  ship.pos.y += ship.acc.y;
+
+	ctx.save();
+  ctx.clearRect( 0, 0, c.width, c.height );
+  
+  ctx.translate(ship.pos.x,ship.pos.y);
+  ctx.rotate(ship.rot *  Math.PI / 180);
+  ctx.translate( -ship.rotation_center_x, -ship.rotation_center_y );
+  ctx.drawImage( ship.img, 0, 0);
+
+  ctx.restore();
+	//clear();
+
+}
+
+window.onload = function()
+{
+  control.init();
+	document.onkeydown = control.onKeyDown;
+	document.onkeyup = control.onKeyUp;
+	document.onclick = control.onclick;
+	document.onmousemove = control.onmousemove;
+}
+
+
+</script>
+
+<canvas id="canvas">Get good browser - Поставьте нормальный браузер</canvas>
+					
+										
+				</div>
+				<div class="col-sm-3 col-md-3 col-lg-3 col-sm-pull-9 col-md-pull-9 col-lg-pull-9">
+										<div id="project-list">
+						<ul>
+						<li >
+						<a href="../../index.html">eeloka.ru</a>
+						<ul><li class=' '><a href='../../mine/index.html'>Майнинг</a></li><li class=' folder'><a href='../index.html'>cucumber's stuff</a><ul><li class=' '><a href='../typing_game.php'>Клавиатурный тренажер</a></li><li class=' '><a href='../mapgen/index.html'>Генератор карт</a></li><li class='active '><a href='index.html'>Космическая игра 0.000001b</a></li><li class=' folder'><a href='../polygon/index.html'>Полигон</a></li><li class=' '><a href='../test_stars/index.html'>zillion stars</a></li></ul></li><li class=' folder'><a href='../../eu/index.html'>eu</a></li><li class=' folder'><a href='../../shared/index.html'>Shared</a></li><li class=' '><a href='../../policy.html'>Policy</a></li></ul>						</li></ul>
+					</div>
+					<div>
+						<div style="padding-top:20px;width:100%;background: url('../../templates/eeloka/graypixel.gif') repeat-x 50% 20%;text-align: center;">
+						<a style="font-size:80%" href="index.html#" onclick="window.open('http://validator.w3.org/check?uri='+escape(document.location.href)+'&amp;charset=%28detect+automatically%29&amp;doctype=Inline&amp;group=0');return false">Все ли правщики здесь знают HTML?</a>
+						</div>
+					</div>
+										
+					
+				</div>
+			</div>
+    </div><!-- /.container -->
+		
+
+				<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter18985513 = new Ya.Metrika({id:18985513,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="http://mc.yandex.ru/watch/18985513" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->  </body>
+</html>
+<!--0.00603-->
